@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fifa Team Konfigurator</title>
+</head>
+<body>
+    <select name="team" id="team"></select>
+    <select name="player" id="player"></select>
+    <br>
+    <img id="playerPhoto">
+    <p id="name"></p>
+    <p id="nationality"></p>
+    <p id="age"></p>
+    <p id="height"></p>
+    <div>
+        <h3>Team 1</h3>
+        <button id="addPlayerTeam1">Spieler hinzufügen</button>
+        <ul id="team1Players"></ul>
+    </div>
+    <div>
+        <h3>Team 2</h3>
+        <button id="addPlayerTeam2">Spieler hinzufügen</button>
+        <ul id="team2Players"></ul>
+    </div>
+</body>
+
+<script src="players_fifa23.js"></script>
+<script src="teams_fifa22.js"></script>
+<script>
+    let teamSelect = document.getElementById('team');
+    let playerSelect = document.getElementById('player');
+    teams.forEach((team) => {
+        let option = document.createElement('option');
+        option.text = team.Name;
+        option.value = team.Name;
+        teamSelect.appendChild(option);
+    });
+
+    function populatePlayerDropdown(selectedTeam) {
+        let playerSelect = document.getElementById('player');
+        playerSelect.innerHTML = ''; // Clear existing options
+        players.filter(player => player.Club === selectedTeam).forEach((player) => {
+            let option = document.createElement('option');
+            option.text = player.Name;
+            option.value = player.Name;
+            playerSelect.appendChild(option);
+        });
+    }
+
+    teamSelect.addEventListener('change', (event) => {
+        populatePlayerDropdown(event.target.value);
+    });
+
+    playerSelect.addEventListener('change', (event) => {
+        let selectedPlayer = players.find(player => player.Name === event.target.value);
+        document.getElementById('playerPhoto').src = selectedPlayer.Photo;
+        document.getElementById('age').textContent = selectedPlayer.Age;
+        document.getElementById('name').textContent = selectedPlayer.Name;
+        document.getElementById('nationality').textContent = selectedPlayer.Nationality;
+        document.getElementById('height').textContent = selectedPlayer.Height;
+    });
+
+    function addPlayerToTeam(teamId) {
+        let selectedPlayer = document.getElementById('player').value;
+        let teamPlayersList = document.getElementById(teamId);
+        
+        let playerExists = Array.from(teamPlayersList.children).some(li => li.textContent.includes(selectedPlayer));
+        if (playerExists) {
+            alert('Dieser Spieler ist bereits in diesem Team.');
+            return;
+        }
+
+        let listItem = document.createElement('li');
+        listItem.textContent = selectedPlayer;
+        let removeButton = document.createElement('button');
+        removeButton.textContent = 'Löschen';
+        removeButton.addEventListener('click', () => {
+            teamPlayersList.removeChild(listItem);
+        });
+        listItem.appendChild(removeButton);
+        teamPlayersList.appendChild(listItem);
+    }
+
+    document.getElementById('addPlayerTeam1').addEventListener('click', () => {
+        addPlayerToTeam('team1Players');
+    });
+
+    document.getElementById('addPlayerTeam2').addEventListener('click', () => {
+        addPlayerToTeam('team2Players');
+    });
+
+    if (teamSelect.options.length > 0) {
+        populatePlayerDropdown(teamSelect.options[0].value);
+    }
+</script>
+</html>
