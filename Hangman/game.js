@@ -51,8 +51,7 @@ createApp({
             if (sessionStorage.getItem('scoreboard') !== null) {
                 this.scoreboard = JSON.parse(sessionStorage.getItem('scoreboard'));
                 this.scoreboard.push(score);
-                // sortieren
-                sessionStorage.setItem('scoreboard', JSON.stringify(scoreboard));
+                sessionStorage.setItem('scoreboard', JSON.stringify(this.scoreboard));
             } else {
                 this.scoreboard.push(score);
                 sessionStorage.setItem('scoreboard', JSON.stringify(this.scoreboard));
