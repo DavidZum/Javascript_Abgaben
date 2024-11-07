@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman</title>
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <style>
+        #app {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #word {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+            letter-spacing: 10px;
+        }
+
+        #buttons {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+
+        button {
+            margin: 5px;
+            padding: 5px;
+            font-size: 20px;
+        }
+
+        span {
+            font-size: 20px;
+        }
+
+        img {
+            width: 200px;
+            height: 200px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <div id="app">
+        <img v-bind:src="img1">
+        <div id="word">
+            <span v-for="letter in wordShown">{{ letter }}</span>
+        </div>
+        <div id="buttons">
+            <button v-for="letter in letters" @click="checkLetter(letter)">{{ letter }}</button>
+        </div>
+        <span>{{ message }}</span>
+        <span>Time: {{ time }}</span>
+        <br>
+        <span v-if="cheat">{{ word }}</span>
+        <br>
+
+        <ol>
+           <li v-for="score in scoreboard">score: {{ score }}</li> 
+        </ol>
+    </div>
+
+</body>
+<script src="wordlist.js"></script>
+<script src="game.js"></script>
+
+</html>
